@@ -5,7 +5,7 @@ import ssl
 import aiohttp
 
 from vkbottle import Bot, API, AiohttpClient
-from handlers import start, echo
+from handlers import start, echo, task1, task2, task3
 
 async def main():
     load_dotenv()
@@ -24,8 +24,11 @@ async def main():
     bot = Bot(api=api)
 
 
-    await start.start_func(bot)
-    await echo.Echo_bot(bot)
+    # await start.start_func(bot)
+    # await echo.start_func(bot)
+    await task1.start_func(bot)
+    await task2.start_func(bot)
+    await task3.start_funs(bot)
 
     await bot.run_polling()
 
