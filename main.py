@@ -5,7 +5,18 @@ import ssl
 import aiohttp
 
 from vkbottle import Bot, API, AiohttpClient
-from handlers import start, echo, task1, task2, task3
+from handlers import start, echo, task1, task2, task3, task4
+
+
+from vkbottle_types.responses.messages import MessagesSendPeerIdsResponse
+from vkbottle_types.objects import MessagesSendUserIdsResponseItem
+
+MessagesSendPeerIdsResponse.model_rebuild(
+    force=True,
+    _types_namespace={
+        "MessagesSendUserIdsResponseItem": MessagesSendUserIdsResponseItem
+    }
+)
 
 async def main():
     load_dotenv()
@@ -26,9 +37,10 @@ async def main():
 
     # await start.start_func(bot)
     # await echo.start_func(bot)
-    await task1.start_func(bot)
-    await task2.start_func(bot)
-    await task3.start_funs(bot)
+    # await task1.start_func(bot)
+    # await task2.start_func(bot)
+    # await task3.start_funs(bot)
+    await task4.start_funс(bot)
 
     await bot.run_polling()
 
