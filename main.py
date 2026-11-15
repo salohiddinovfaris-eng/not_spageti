@@ -5,7 +5,7 @@ import ssl
 import aiohttp
 
 from vkbottle import Bot, API, AiohttpClient
-from handlers import start, echo, task1, task2, task3, task4
+from handlers import start, echo, task1, task2, task3, task4, task5, attach
 
 
 from vkbottle_types.responses.messages import MessagesSendPeerIdsResponse
@@ -31,7 +31,6 @@ async def main():
     http_client = AiohttpClient(connector=aiohttp.TCPConnector(ssl=ssl_context))
 
     api = API(token=token, http_client=http_client)
-    print("Генератор токена:", type(api.token_generator).__name__)
     bot = Bot(api=api)
 
 
@@ -40,7 +39,9 @@ async def main():
     # await task1.start_func(bot)
     # await task2.start_func(bot)
     # await task3.start_funs(bot)
-    await task4.start_funс(bot)
+    # task4.start_funс(bot)
+    attach.start_func(bot)
+    # task5.start_funs(bot)
 
     await bot.run_polling()
 
