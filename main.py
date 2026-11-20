@@ -7,6 +7,15 @@ from dotenv import load_dotenv
 from vkbottle import Bot, AiohttpClient
 from handlers import action, task4
 
+from vkbottle_types.responses.messages import MessagesSendPeerIdsResponse
+from vkbottle_types.objects import MessagesSendUserIdsResponseItem
+
+MessagesSendPeerIdsResponse.model_rebuild(
+    force=True,
+    _types_namespace={
+        "MessagesSendUserIdsResponseItem": MessagesSendUserIdsResponseItem
+    }
+)
 
 load_dotenv()
 
@@ -26,10 +35,11 @@ async def main():
 
     bot = Bot(token=token)
     bot.api.http_client = http_client
-    # action.action_func(bot)
+    action.action_func(bot)
 
+    await task4.start_funс(bot)
     await bot.run_polling()
-    await task4.start_funс()
+
 
 
 if __name__ == "__main__":
