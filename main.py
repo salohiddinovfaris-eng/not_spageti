@@ -1,49 +1,36 @@
+import os
 import asyncio
-import os 
-from dotenv import load_dotenv
 import ssl
 import aiohttp
 
-from vkbottle import Bot, API, AiohttpClient
-from handlers import start, echo, task1, task2, task3, task4, task5, attach
+from dotenv import load_dotenv
+from vkbottle import Bot, AiohttpClient
+from handlers import action, task4
 
 
-from vkbottle_types.responses.messages import MessagesSendPeerIdsResponse
-from vkbottle_types.objects import MessagesSendUserIdsResponseItem
+load_dotenv()
 
-MessagesSendPeerIdsResponse.model_rebuild(
-    force=True,
-    _types_namespace={
-        "MessagesSendUserIdsResponseItem": MessagesSendUserIdsResponseItem
-    }
-)
+token = os.getenv("VK_TOKEN")
+
+if not token:
+    raise ValueError("Не найден VK_TOKEN! Проверь файл .env")
+
 
 async def main():
-    load_dotenv()
-
-    token = os.getenv('VK_TOKEN')
-
-    if not token:
-        raise RuntimeError("Переменна VK_TOKEN не задана")
-
     ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
 
-    http_client = AiohttpClient(connector=aiohttp.TCPConnector(ssl=ssl_context))
+    connector = aiohttp.TCPConnector(ssl=ssl_context)
+    http_client = AiohttpClient(connector=connector)
 
-    api = API(token=token, http_client=http_client)
-    bot = Bot(api=api)
-
-
-    # await start.start_func(bot)
-    # await echo.start_func(bot)
-    # await task1.start_func(bot)
-    # await task2.start_func(bot)
-    # await task3.start_funs(bot)
-    # task4.start_funс(bot)
-    attach.start_func(bot)
-    # task5.start_funs(bot)
+    bot = Bot(token=token)
+    bot.api.http_client = http_client
+    # action.action_func(bot)
 
     await bot.run_polling()
+    await task4.start_funс()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     asyncio.run(main())
